@@ -14,25 +14,36 @@ function App() {
   const [imgSrc, setImgSrc] = React.useState(null);
 
   const [images, setImages] = React.useState([]);
+  const [timerState, setTimerState] = React.useState(false);
 
   const capture = React.useCallback(async () => {
     const imageSrc = webcamRef.current.getScreenshot();
     setImgSrc(imageSrc);
 
-    console.log();
+    setTimerState(3);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    setTimerState(2);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    setTimerState(1);
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
     fetch(imageSrc)
       .then(res => res.blob() )
       .then( async (blob) => {
           const file = new File( [blob], "tmp.png")
           const key = Date.now() + ".png"
-          const result = await Storage.put(key, file, {
-            contentType: 'image/png',
-            level: 'public',
-            ACL: 'public-read'
-          })          
-      })  
+          await Storage.put(key, file)          
+
+          setTimerState(false);
+      })
   }, [webcamRef, setImgSrc]);
+
+  
+
+
+
 
   function load() {
     Storage.list('')
@@ -51,8 +62,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Link to="/">Home</Link>
-        <Link to="tv">TV</Link>
+        <Link to="tv">TV</Link>&nbsp;&nbsp;&nbsp;
         <Link to="photobox">Photobox</Link>
 
         <Routes>
@@ -63,21 +73,31 @@ function App() {
           <Route path="tv" element={<>
             <h1>TV</h1>
 
-            {images.map( img => <img src={img} /> )}
+            <div className="images">
+              {images.map( img => <img src={img} /> )}
+            </div>
 
             <button onClick={() => load()}>load</button>
           </>} />
 
           <Route path="photobox" element={<>
             <h1>photobox</h1>
-            <Webcam
-                className='webcam'
-                audio={false}
-                ref={webcamRef}
-                screenshotFormat="image/jpeg"
-            />
+            <div className='camera'>
+              <Webcam
+                  className='webcam'
+                  audio={false}
+                  ref={webcamRef}
+                  screenshotFormat="image/jpeg"
+              />
 
-            <button className='capture' onClick={() => capture()}></button>
+              { timerState 
+                ? <div className='timer'>{ timerState }</div> 
+                : <button className='capture' onClick={() => capture()}></button>
+              }
+            </div>
+          
+            
+            
           </>} />
 
           <Route path="*" element={<>
