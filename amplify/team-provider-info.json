@@ -1,0 +1,23 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-photobox-dev-142018-authRole",
+      "UnauthRoleArn": "arn:aws:iam::405618765219:role/amplify-photobox-dev-142018-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::405618765219:role/amplify-photobox-dev-142018-authRole",
+      "Region": "eu-central-1",
+      "DeploymentBucketName": "amplify-photobox-dev-142018-deployment",
+      "UnauthRoleName": "amplify-photobox-dev-142018-unauthRole",
+      "StackName": "amplify-photobox-dev-142018",
+      "StackId": "arn:aws:cloudformation:eu-central-1:405618765219:stack/amplify-photobox-dev-142018/90749860-7e39-11ee-8496-020fd64a5f27",
+      "AmplifyAppId": "d1isud72tic2ug"
+    },
+    "categories": {
+      "auth": {
+        "photoboxe9f0741a": {}
+      },
+      "storage": {
+        "PhotoBoxAuth": {}
+      }
+    }
+  }
+}
