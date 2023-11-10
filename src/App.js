@@ -2,7 +2,7 @@ import './App.css';
 
 import React, { useEffect } from 'react';
 import Webcam from 'react-webcam';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 
 import { Amplify, Storage } from 'aws-amplify';
 
@@ -88,8 +88,8 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Link to="tv">TV</Link>&nbsp;&nbsp;&nbsp;
-        <Link to="photobox">Photobox</Link>
+        <NavLink to="tv">TV</NavLink>&nbsp;&nbsp;&nbsp;
+        <NavLink to="photobox">Photobox</NavLink>
 
         <Routes>
           <Route path="/" element={<>
