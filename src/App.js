@@ -1,6 +1,6 @@
 import './App.css';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Webcam from 'react-webcam';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
@@ -13,8 +13,37 @@ function App() {
   const webcamRef = React.useRef(null);
   const [imgSrc, setImgSrc] = React.useState(null);
 
-  const [images, setImages] = React.useState([]);
+  const images = React.useRef([]);
   const [timerState, setTimerState] = React.useState(false);
+  const [transition, setTransition] = React.useState(false);
+
+
+  const [heroImage, setHeroImage] = React.useState(null);
+
+  useEffect(() => {
+    load();
+
+    setInterval(() => {
+      if(images.current.length) {
+        const tmp = images.current.sort(() => Math.random() - 0.5)
+        console.log(images);
+        console.log(tmp[0]);
+        setHeroImage(tmp[0]);
+      }
+      else {
+        load();
+      }
+    }, 10000);
+
+
+    setInterval(() => {
+      load();
+      
+    }, 60000);
+    
+  }, []);
+
+
 
   const capture = React.useCallback(async () => {
     const imageSrc = webcamRef.current.getScreenshot();
@@ -34,16 +63,11 @@ function App() {
       .then( async (blob) => {
           const file = new File( [blob], "tmp.png")
           const key = Date.now() + ".png"
-          await Storage.put(key, file)          
+          await Storage.put(key, file)
 
           setTimerState(false);
       })
   }, [webcamRef, setImgSrc]);
-
-  
-
-
-
 
   function load() {
     Storage.list('')
@@ -54,7 +78,9 @@ function App() {
 
         const tmp = result.results.map( img => URL_PREFIX + img.key);
       
-        setImages(tmp);
+        //setImages(tmp);
+
+        images.current = tmp;
       })
       .catch(err => console.log(err));
   }
@@ -73,11 +99,9 @@ function App() {
           <Route path="tv" element={<>
             <h1>TV</h1>
 
-            <div className="images">
-              {images.map( img => <img src={img} /> )}
+            <div className='container'>
+              <img className='hero' src={heroImage} />
             </div>
-
-            <button onClick={() => load()}>load</button>
           </>} />
 
           <Route path="photobox" element={<>
