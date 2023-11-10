@@ -80,24 +80,23 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <NavLink to="tv">TV</NavLink>&nbsp;&nbsp;&nbsp;
-        <NavLink to="photobox">Photobox</NavLink>
+        
 
         <Routes>
           <Route path="/" element={<>
+            <NavLink to="tv">TV</NavLink>&nbsp;&nbsp;&nbsp;
+            <NavLink to="photobox">Photobox</NavLink>
+
             <h1>Home</h1>
           </>} />
 
           <Route path="tv" element={<>
-            <h1>TV</h1>
-
             <div className='container'>
               <img className='hero' src={heroImage} />
             </div>
           </>} />
 
           <Route path="photobox" element={<>
-            <h1>photobox</h1>
             <div className='camera'>
               <Webcam
                   className='webcam'
@@ -110,10 +109,7 @@ function App() {
                 ? <div className='timer'>{ timerState }</div> 
                 : <button className='capture' onClick={() => capture()}></button>
               }
-            </div>
-          
-            
-            
+            </div>  
           </>} />
 
           <Route path="*" element={<>
