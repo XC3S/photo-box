@@ -26,8 +26,6 @@ function App() {
     setInterval(() => {
       if(images.current.length) {
         const tmp = images.current.sort(() => Math.random() - 0.5)
-        console.log(images);
-        console.log(tmp[0]);
         setHeroImage(tmp[0]);
       }
       else {
@@ -38,7 +36,6 @@ function App() {
 
     setInterval(() => {
       load();
-      
     }, 60000);
     
   }, []);
@@ -72,13 +69,8 @@ function App() {
   function load() {
     Storage.list('')
       .then(result => {
-        console.log(result);
-
         const URL_PREFIX = "https://photobox142018-dev.s3.eu-central-1.amazonaws.com/public/";
-
         const tmp = result.results.map( img => URL_PREFIX + img.key);
-      
-        //setImages(tmp);
 
         images.current = tmp;
       })
